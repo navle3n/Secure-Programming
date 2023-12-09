@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <div class="container">
         <h1>User Registration Form</h1>
+
         <form method="post" action="process.php" id="registrationForm">
             <div class="form-group">
                 <label for="username">Username:</label>
@@ -21,24 +23,20 @@
             </div>
 
             <div class="form-group">
-                <label for="retypepasswordword">Retype Password:</label>
-                <input type="password" name="retypepasswordword" required>
+                <label for="retypepassword">Retype Password:</label>
+                <input type="password" name="retypepassword" required>
             </div>
 
             <div class="form-group">
                 <label for="education">Education:</label>
                 <input type="text" name="education" pattern="High School|Bachelor's Degree|Master's Degree|Doctorate" title="Please select a valid education level" maxlength="250">
             </div>
-    
+
             <div class="form-group">
                 <label for="phonenumber">Phone Number:</label>
                 <input type="tel" name="phonenumber" placeholder="Enter a valid number" required>
             </div>
 
-        <div class="form-group">
-            <label for="retypepassword">Retype Password:</label>
-            <input type="password" name="retypepassword" required>
-        </div>
             <div class="form-group">
                 <label for="DOB">Date of Birth:</label>
                 <input type="DOB" name="DOB" placeholder="DD/MM/YYYY" required>
@@ -64,3 +62,22 @@
                     <label for="number">Number:</label>
                     <input type="text" name="number">
                 </div>
+
+                <div class="form-group">
+                    <label for="postcode">Postcode:</label>
+                    <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
+                </div>
+
+                <div class="form-group">
+                    <label for="JSON">JSON Preferences:</label>
+                    <textarea name="JSON" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+                <div class="form-group">
+                    <input type="submit" value="Register">
+                </div>
+
+    </form>
+
+</body>
+</html>

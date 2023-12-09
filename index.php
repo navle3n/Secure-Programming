@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <div class="container">
         <h1>User Registration Form</h1>
         <form method="post" action="process.php" id="registrationForm">

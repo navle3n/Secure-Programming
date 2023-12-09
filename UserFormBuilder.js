@@ -122,12 +122,48 @@ function isValidPostcode(postcode, cor) {
 }
 
 // Function to validate JSON preferences format
-function isValidJSON(json) {
+async function validateJSONWithJSONLint(json) {
     try {
-        const preferences = JSON.parse(json);
-        // Add additional validation for JSON structure if needed
+        const response = await fetch('https://jsonlint.com/validate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ json }),
+        });
+
+        const result = await response.json();
+
+        if (result && result.error) {
+            console.error('JSON validation error:', result.error);
+            return false;
+        }
+
         return true;
     } catch (error) {
+        console.error('Error validating JSON:', error);
+        return false;
+    }
+}
+
+// Function to validate JSON preferences format
+async function isValidJSON(json) {
+    try {
+        // Validate JSON using external API
+        const isJSONValid = await validateJSONWithJSONLint(json);
+
+        if (!isJSONValid) {
+            alert('Invalid JSON preferences. Please enter valid JSON.');
+            return false;
+        }
+
+        // Add additional validation for JSON structure if needed
+        const preferences = JSON.parse(json);
+        // Add additional validation for JSON structure if needed
+
+        return true;
+    } catch (error) {
+        console.error('Error validating JSON:', error);
         return false;
     }
 }
@@ -140,11 +176,12 @@ function validateForm() {
     const educationInput = document.getElementById('education');
     const phoneNumberInput = document.getElementById('phoneNumber');
     const dobInput = document.getElementById('dob');
-    const corInput = document.getElementById('cor');
+    const corInput = document.getElementById('corSelect'); // Update the id here
     const streetInput = document.getElementById('street');
     const numberInput = document.getElementById('number');
     const postcodeInput = document.getElementById('postcode');
     const jsonInput = document.getElementById('json');
+    const hiddenFields = document.getElementById('hiddenFields');
 
     // Sanitize input to prevent XSS
     usernameInput.value = sanitizeInput(usernameInput.value);
@@ -220,10 +257,33 @@ function validateForm() {
     }
 
     // Validate JSON preferences format
-    if (!isValidJSON(jsonInput.value)) {
-        alert('Invalid JSON preferences. Please enter valid JSON.');
+    if (!await isValidJSON(jsonInput.value)) {
         return false;
     }
 
     return true;
 }
+
+// Add an event listener to the country of residence select
+document.getElementById('corSelect').addEventListener('change', toggleHiddenFields);
+
+// Function to toggle the visibility of the hidden fields
+function toggleHiddenFields() {
+    const hiddenFields = document.getElementById('hiddenFields');
+    const corInput = document.getElementById('corSelect');
+
+    // Show the hidden fields only if a country is selected
+    hiddenFields.style.display = corInput.value !== '' ? 'block' : 'none';
+}
+
+// Initialize the state based on the initial value of the country select
+toggleHiddenFields();
+
+// Add form submit event listener
+const form = document.getElementById('registrationForm');
+form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    if (await validateForm()) {
+        form.submit(); // Proceed with form submission
+    }
+});

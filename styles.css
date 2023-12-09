@@ -1,45 +1,45 @@
-/* styles.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
+    width: 600px; /* Adjust the width as needed */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
+    font-size: 24px;
     color: #333;
-}
-
-.form-group {
     margin-bottom: 20px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-input[type="text"],
-input[type="password"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+.form-group label {
+    flex: 0 0 45%; /* Adjust the width of the labels */
+    text-align: left;
+    margin-right: 10px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    flex: 0 0 50%; /* Adjust the width of the input/select/textarea */
 }
 
 input[type="submit"] {

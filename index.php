@@ -40,7 +40,7 @@
 
         <div class="form-group">
             <label for="DOB">Date of Birth:</label>
-            <input type="text" name="DOB" placeholder="DD/MM/YYYY" required>
+            <input type="date" name="DOB" placeholder="DD/MM/YYYY" required>
         </div>
 
         <div class="form-group">

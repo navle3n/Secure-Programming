@@ -10,17 +10,7 @@
 
     <div class="container">
         <h1>User Registration Form</h1>
-
-<<<<<<< Updated upstream
-    <form method="post" action="process.php">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
-        </div>
-=======
         <form method="post" action="process.php" id="registrationForm">
->>>>>>> Stashed changes
-
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" name="username" required>
@@ -31,28 +21,16 @@
                 <input type="password" name="password" required>
             </div>
 
-<<<<<<< Updated upstream
-        <div class="form-group">
-            <label for="education">Education:</label>
-            <input type="text" name="education" maxlength="250">
-        </div>
-
-        <div class="form-group">
-            <label for="phonenumber">Phone Number:</label>
-            <input type="text" name="phonenumber" placeholder="Enter a valid number" required>
-        </div>
-=======
             <div class="form-group">
-                <label for="retypepass">Retype Password:</label>
-                <input type="password" name="retypepass" required>
+                <label for="retypepassword">Retype Password:</label>
+                <input type="password" name="retypepassword" required>
             </div>
 
             <div class="form-group">
                 <label for="education">Education:</label>
                 <input type="text" name="education" pattern="High School|Bachelor's Degree|Master's Degree|Doctorate" title="Please select a valid education level" maxlength="250">
             </div>
->>>>>>> Stashed changes
-
+    
             <div class="form-group">
                 <label for="phonenumber">Phone Number:</label>
                 <input type="tel" name="phonenumber" placeholder="Enter a valid number" required>
@@ -83,24 +61,3 @@
                     <label for="number">Number:</label>
                     <input type="text" name="number">
                 </div>
-
-                <div class="form-group">
-                    <label for="postcode">Postcode:</label>
-                    <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="JSON">JSON Preferences:</label>
-                <textarea name="JSON" rows="4" cols="50"></textarea>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Register">
-            </div>
-        </form>
-    </div>
-
-    <script src="UserFormBuilder.js"></script>
-</body>
-</html>

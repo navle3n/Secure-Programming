@@ -63,7 +63,7 @@
 
         <div class="form-group">
             <label for="postcode">Postcode:</label>
-            <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid UK postcode">
+            <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
         </div>
 
         <div class="form-group">

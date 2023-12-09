@@ -1,3 +1,4 @@
+<!-- index.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
 
     <h1>User Registration Form</h1>
 
-    <form method="post" action="process.php">
+    <form method="post" action="process.php" id="registrationForm">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" name="username" required>
@@ -29,12 +30,12 @@
 
         <div class="form-group">
             <label for="education">Education:</label>
-            <input type="text" name="education" maxlength="250">
+            <input type="text" name="education" pattern="High School|Bachelor's Degree|Master's Degree|Doctorate" title="Please select a valid education level" maxlength="250">
         </div>
 
         <div class="form-group">
             <label for="phonenumber">Phone Number:</label>
-            <input type="text" name="phonenumber" placeholder="Enter a valid number" required>
+            <input type="tel" name="phonenumber" placeholder="Enter a valid number" required>
         </div>
 
         <div class="form-group">

@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 <label for="DOB">Date of Birth:</label>
-                <input type="DOB" name="DOB" placeholder="DD/MM/YYYY" required>
+                <input type="text" name="DOB" placeholder="DD/MM/YYYY" required>
             </div>
 
             <div class="form-group">
@@ -53,17 +53,17 @@
             </div>
 
             <div class="hiddenFields" id="hiddenFields">
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="street">Street:</label>
                     <input type="text" name="street" maxlength="250">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="number">Number:</label>
                     <input type="text" name="number">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="postcode">Postcode:</label>
                     <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
                 </div>

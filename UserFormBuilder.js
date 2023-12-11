@@ -123,52 +123,6 @@ function isValidPostcode(postcode, cor) {
     }
 }
 
-// Function to validate JSON preferences format
-async function validateJSONWithJSONLint(json) {
-    try {
-        const response = await fetch('https://jsonlint.com/validate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ json }),
-        });
-
-        const result = await response.json();
-
-        if (result && result.error) {
-            console.error('JSON validation error:', result.error);
-            return false;
-        }
-
-        return true;
-    } catch (error) {
-        console.error('Error validating JSON:', error);
-        return false;
-    }
-}
-
-// Function to validate JSON preferences format
-async function isValidJSON(json) {
-    try {
-        // Validate JSON using external API
-        const isJSONValid = await validateJSONWithJSONLint(json);
-
-        if (!isJSONValid) {
-            alert('Invalid JSON preferences. Please enter valid JSON.');
-            return false;
-        }
-
-        // Add additional validation for JSON structure if needed
-        const preferences = JSON.parse(json);
-        // Add additional validation for JSON structure if needed
-
-        return true;
-    } catch (error) {
-        console.error('Error validating JSON:', error);
-        return false;
-    }
-}
 
 // Validate form on the client side
 function validateForm() {
@@ -258,16 +212,12 @@ function validateForm() {
         return false;
     }
 
-    // Validate JSON preferences format
-    if (!await isValidJSON(jsonInput.value)) {
-        return false;
-    }
-
     return true;
 }
 
 // Function to toggle the visibility of the hidden fields
 function toggleHiddenFields() {
+    console.log('Toggle Hidden Fields Called');
     const hiddenFields = document.getElementById('hiddenFields');
     const corInput = document.getElementById('corSelect');
 

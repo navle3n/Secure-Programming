@@ -7,8 +7,10 @@ document.head.appendChild(meta);
 
 // Function to sanitize input and prevent XSS attacks
 function sanitizeInput(input) {
-    return input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.body.textContent || "";
 }
+
 
 // Function to validate date format
 function isValidDate(dateString) {
@@ -264,9 +266,6 @@ function validateForm() {
     return true;
 }
 
-// Add an event listener to the country of residence select
-document.getElementById('corSelect').addEventListener('change', toggleHiddenFields);
-
 // Function to toggle the visibility of the hidden fields
 function toggleHiddenFields() {
     const hiddenFields = document.getElementById('hiddenFields');
@@ -279,11 +278,14 @@ function toggleHiddenFields() {
 // Initialize the state based on the initial value of the country select
 toggleHiddenFields();
 
+// Add an event listener to the country of residence select
+document.getElementById('corSelect').addEventListener('change', toggleHiddenFields);
+
 // Add form submit event listener
 const form = document.getElementById('registrationForm');
 form.addEventListener('submit', async function (event) {
     event.preventDefault();
-    if (await validateForm()) {
+    if (validateForm()) {
         form.submit(); // Proceed with form submission
     }
 });

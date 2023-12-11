@@ -10,6 +10,7 @@
 
     <div class="container">
         <h1>User Registration Form</h1>
+
         <form method="post" action="process.php" id="registrationForm">
             <div class="form-group">
                 <label for="username">Username:</label>
@@ -30,7 +31,7 @@
                 <label for="education">Education:</label>
                 <input type="text" name="education" pattern="High School|Bachelor's Degree|Master's Degree|Doctorate" title="Please select a valid education level" maxlength="250">
             </div>
-    
+
             <div class="form-group">
                 <label for="phonenumber">Phone Number:</label>
                 <input type="tel" name="phonenumber" placeholder="Enter a valid number" required>
@@ -52,12 +53,31 @@
             </div>
 
             <div class="hiddenFields" id="hiddenFields">
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="street">Street:</label>
                     <input type="text" name="street" maxlength="250">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="number">Number:</label>
                     <input type="text" name="number">
                 </div>
+
+                <div class="form-group" style="display: none;">
+                    <label for="postcode">Postcode:</label>
+                    <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
+                </div>
+
+                <div class="form-group">
+                    <label for="JSON">JSON Preferences:</label>
+                    <textarea name="JSON" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+                <div class="form-group">
+                    <input type="submit" value="Register">
+                </div>
+
+    </form>
+
+</body>
+</html>

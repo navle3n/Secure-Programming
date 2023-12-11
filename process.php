@@ -172,6 +172,9 @@ try {
         if (!isValidJSON($_POST['JSON'])) {
             die("Invalid JSON preferences. Please enter valid JSON.");
         }
+        
+        // Hash the password before storing in the database
+        $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         // Create an instance of ConcreteUserBuilder
         $userBuilder = new ConcreteUserBuilder();
@@ -230,9 +233,7 @@ try {
         echo "User data stored successfully in the database.";
 
         // Close the statement
-            $stmt->close();
-            $stmt->close();
-        $stmt->close();
+        $conn->close();
     }
 } catch (Exception $e) {
     // Display a generic error message
@@ -244,9 +245,6 @@ try {
     // Close the database connection
     $conn->close();
     }
-    }
-
-}
 
 ?>
 

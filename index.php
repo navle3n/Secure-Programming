@@ -51,33 +51,26 @@
                     <option value="IR">IR</option>
                 </select>
             </div>
+            <div id="hiddenFields" style="display: none;">
+                <label for="street">Street:</label>
+                <input type="text" name="street" maxlength="250">
 
-            <div class="hiddenFields" id="hiddenFields">
-                <div class="form-group" style="display: none;">
-                    <label for="street">Street:</label>
-                    <input type="text" name="street" maxlength="250">
-                </div>
+                <label for="number">Number:</label>
+                <input type="text" name="number">
 
-                <div class="form-group" style="display: none;">
-                    <label for="number">Number:</label>
-                    <input type="text" name="number">
-                </div>
-
-                <div class="form-group" style="display: none;">
-                    <label for="postcode">Postcode:</label>
-                    <input type="text" name="postcode" pattern="[A-Za-z\d\s]{6,8}" placeholder="Enter a valid postcode">
-                </div>
-
-                <div class="form-group">
-                    <label for="JSON">JSON Preferences:</label>
-                    <textarea name="JSON" rows="4" cols="50"></textarea>
-                </div>
+                <label for="postcode">Postcode:</label>
+                <input type="text" name="postcode" placeholder="Enter a valid postcode">
             </div>
-                <div class="form-group">
-                    <input type="submit" value="Register">
-                </div>
 
-    </form>
-
+            <div class="form-group">
+                <label for="JSON">JSON Preferences:</label>
+                <textarea name="JSON" rows="4" cols="50"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register">
+            </div>
+        </form>
+    </div>
+    <script src="userFormBuilder.js"></script>
 </body>
 </html>

@@ -181,8 +181,7 @@ try {
         // Set user attributes from the form data
         $user = $userBuilder
             ->setUsername($_POST['username'])
-            ->setPassword($_POST['password'])
-            ->setRetypepass($_POST['retypepassword'])
+            ->setPassword($hashedPassword)
             ->setEducation($_POST['education'])
             ->setPhonenumber($_POST['phonenumber'])
             ->setDOB($_POST['DOB'])
@@ -232,18 +231,24 @@ try {
         echo "User data stored successfully in the database.";
 
         // Close the statement
-        $conn->close();
+        $stmt->close();
     }
+} catch (mysqli_sql_exception $e) {
+    // Handle database-related exceptions
+    echo "A database error occurred. Please try again later.";
+
+    // Log the detailed error for debugging purposes
+    error_log("Database error: " . $e->getMessage());
 } catch (Exception $e) {
-    // Display a generic error message
-    echo "An error occurred. Please try again later.";
+    // Handle other unexpected exceptions
+    echo "An unexpected error occurred. Please try again later.";
 
     // Log the detailed error for debugging purposes
     error_log("Unexpected error: " . $e->getMessage());
 } finally {
     // Close the database connection
     $conn->close();
-    }
+}
 
 ?>
 

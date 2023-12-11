@@ -1,4 +1,3 @@
-//process.php
 <?php
 
 // Include the User and ConcreteUserBuilder class definitions
@@ -6,10 +5,10 @@ require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';
 
 // Database connection details
-$servername = "your_servername";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database_name";
+$servername = "localhost";
+$username = "root";
+$password = "manoisdumb";
+$dbname = "user_registration_db";
 
 try {
     // Create a database connection

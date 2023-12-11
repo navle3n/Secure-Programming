@@ -1,5 +1,3 @@
-// UserFormBuilder.js
-// Content Security Policy (CSP)
 const meta = document.createElement('meta');
 meta.httpEquiv = 'Content-Security-Policy';
 meta.content = "default-src 'self'";
@@ -128,15 +126,15 @@ function isValidPostcode(postcode, cor) {
 function validateForm() {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
-    const retypePasswordInput = document.getElementById('retypePassword');
+    const retypePasswordInput = document.getElementById('retypepassword');
     const educationInput = document.getElementById('education');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    const dobInput = document.getElementById('dob');
+    const phoneNumberInput = document.getElementById('phonenumber');
+    const dobInput = document.getElementById('DOB');
     const corInput = document.getElementById('corSelect'); // Update the id here
     const streetInput = document.getElementById('street');
     const numberInput = document.getElementById('number');
     const postcodeInput = document.getElementById('postcode');
-    const jsonInput = document.getElementById('json');
+    const jsonInput = document.getElementById('JSON');
     const hiddenFields = document.getElementById('hiddenFields');
 
     // Sanitize input to prevent XSS
@@ -233,7 +231,7 @@ document.getElementById('corSelect').addEventListener('change', toggleHiddenFiel
 
 // Add form submit event listener
 const form = document.getElementById('registrationForm');
-form.addEventListener('submit', async function (event) {
+form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (validateForm()) {
         form.submit(); // Proceed with form submission

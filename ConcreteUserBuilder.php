@@ -1,6 +1,4 @@
-//ConcreteUserBuiilder.php
 <?php
-// Include the User class definition
 require_once 'User.php';
 
 class ConcreteUserBuilder implements UserBuilder {

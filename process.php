@@ -128,7 +128,7 @@ try {
         }
 
         // Validate retype password
-        if ($_POST['password'] !== $_POST['retypepass']) {
+        if ($_POST['password'] !== $_POST['retypepassword']) {
             die("Passwords do not match.");
         }
 
@@ -182,7 +182,7 @@ try {
         $user = $userBuilder
             ->setUsername($_POST['username'])
             ->setPassword($_POST['password'])
-            ->setRetypepass($_POST['retypepass'])
+            ->setRetypepass($_POST['retypepassword'])
             ->setEducation($_POST['education'])
             ->setPhonenumber($_POST['phonenumber'])
             ->setDOB($_POST['DOB'])

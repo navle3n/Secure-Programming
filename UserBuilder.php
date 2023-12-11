@@ -1,5 +1,3 @@
-//UserBuilder.php
-
 <?php
 
 interface UserBuilder {

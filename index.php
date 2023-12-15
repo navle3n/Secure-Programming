@@ -28,9 +28,10 @@
             </div>
 
             <div class="form-group">
-                <label for="education">Education:</label>
-                <input type="text" name="education" pattern="High School|Bachelor's Degree|Master's Degree|Doctorate" title="Please select a valid education level" maxlength="250" id="education" >
+                <label for="education">Tell us about your education:</label>
+                <textarea name="education" id="education" minlength="100" maxlength="300" required placeholder="Provide a detailed description of your education (100-300 characters)"></textarea>
             </div>
+
 
             <div class="form-group">
                 <label for="phonenumber">Phone Number:</label>

@@ -45,9 +45,11 @@ try {
 
         // Function to validate education format
         function isValidEducation($education) {
-            // Allow only specified education levels
-            $allowedEducations = ["High School", "Bachelor's Degree", "Master's Degree", "Doctorate"];
-            return in_array($education, $allowedEducations);
+            // Allow only text with a minimum length of 100 and a maximum length of 300 characters
+            $trimmedEducation = trim($education);
+            $educationLength = mb_strlen($trimmedEducation);
+            
+            return $educationLength >= 100 && $educationLength <= 300;
         }
 
         // Function to validate phone number format
@@ -109,13 +111,15 @@ try {
         }
 
         // Function to validate JSON preferences format
+       // Function to validate JSON preferences format
         function isValidJSON($json) {
             // Decode the JSON string
             $decoded = json_decode($json);
-        
+
             // Check if the decoding was successful and if the result is an array or an object
-            return $decoded !== null && (is_array($decoded) || is_object($decoded));
+            return json_last_error() === JSON_ERROR_NONE && ($decoded !== null);
         }
+
         
         // Validate username
         if (!isValidUsername($_POST['username'])) {
@@ -132,10 +136,11 @@ try {
             die("Passwords do not match.");
         }
 
-        // Validate education
+       // Validate education
         if (!isValidEducation($_POST['education'])) {
-            die("Invalid education. Please select a valid education level.");
+            die("Invalid education. Please provide a detailed description of your education (100-300 characters).");
         }
+ 
 
         // Validate phone number
         if (!isValidPhoneNumber($_POST['phonenumber'])) {
@@ -194,12 +199,12 @@ try {
 
         // Store user data in the database
         $sql = "INSERT INTO users (username, password, education, phonenumber, dob, cor, street, number, postcode, json_preferences)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, STR_TO_DATE(?, '%Y/%m/%d'), ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
-            die("Error in preparing the SQL statement. Please try again later.");
+            die("Error in prepar ing the SQL statement. Please try again later.");
 
             // Log the detailed error for debugging purposes
             error_log("SQL statement preparation error: " . $conn->error);

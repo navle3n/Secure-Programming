@@ -67,6 +67,24 @@ h1 {
     display: none;
 }
 
+
+.field-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.field-list li {
+    margin-bottom: 15px;
+    
+}
+
+.form-helper-text {
+    display: block;
+    font-style: italic;
+    font-size: small;
+}
+
 input[type="submit"] {
     background-color: #4caf50;
     color: #fff;

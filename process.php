@@ -112,8 +112,7 @@ try {
                     return false;
             }
         }
-
-        // Function to validate JSON preferences format
+        
        // Function to validate JSON preferences format
         function isValidJSON($json) {
             // Decode the JSON string
@@ -129,6 +128,27 @@ try {
             die("Invalid username. Please enter a valid username.");
         }
 
+        // Check if the username already exists in the database
+        $checkUsernameQuery = "SELECT COUNT(*) FROM users WHERE username = ?";
+        $checkUsernameStmt = $conn->prepare($checkUsernameQuery);
+
+        if (!$checkUsernameStmt) {
+            die("Error in preparing the username check SQL statement. Please try again later.");
+
+            // Log the detailed error for debugging purposes
+            error_log("Username check SQL statement preparation error: " . $conn->error);
+        }
+
+        $checkUsernameStmt->bind_param("s", $_POST['username']);
+        $checkUsernameStmt->execute();
+        $checkUsernameStmt->bind_result($existingUserCount);
+        $checkUsernameStmt->fetch();
+
+        // Check if a user with the same username already exists
+        if ($existingUserCount > 0) {
+            die("Username already exists. Please choose a different username.");
+        }
+        
         // Validate password
         if (!isValidPassword($_POST['password'])) {
             die("Invalid password. Please enter a password with at least 8 characters, including one uppercase, one lowercase, and one special character.");
@@ -263,17 +283,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ... (existing code for preparing and executing the insert query)
 
         // Execute the statement
-        if (!$stmt->execute()) {
+        if ($stmt->execute()) {
+            // Registration successful, redirect to success page
+            header("Location: registration_success.php");
+            exit();
+        } else {
+            // Registration failed
             die("Error in executing the SQL statement. Please try again later.");
-
             // Log the detailed error for debugging purposes
             error_log("SQL statement execution error: " . $stmt->error);
         }
 
-        // Display success message
-        echo "User data stored successfully in the database.";
-
         // Close the statement
+        $checkUsernameStmt->close();
         $stmt->close();
     }
 }

@@ -68,3 +68,4 @@ class ConcreteUserBuilder implements UserBuilder {
         return $this->user;
     }
 }
+?>

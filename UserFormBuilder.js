@@ -49,6 +49,27 @@ function isValidEducation(education) {
     return educationLength >= 100 && educationLength <= 300;
 }
 
+// Function to update character count for the "education" field
+function updateCharCount() {
+    const educationInput = document.getElementById('education');
+    const charCountElement = document.getElementById('charCount');
+
+    const charCount = educationInput.value.length;
+
+    charCountElement.textContent = charCount + ' character' + (charCount !== 1 ? 's' : '');
+}
+
+// Add event listener for input in the "education" field
+const educationInput = document.getElementById('education');
+educationInput.addEventListener('input', function () {
+    updateCharCount();
+});
+
+// Initial character count update
+updateCharCount();
+
+
+
 // Function to validate phone number format
 function isValidPhoneNumber(phoneNumber) {
     // Allow UK, Ireland, and US phone number formats

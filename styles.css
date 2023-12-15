@@ -10,13 +10,15 @@ body {
 }
 
 .container {
-    width: 600px;
+    max-width: 600px;
+    margin: auto; /* Adjust the top margin as needed */
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 
 h1 {
     font-size: 24px;
@@ -26,20 +28,39 @@ h1 {
 
 .form-group {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Updated to a column layout */
     margin-bottom: 20px;
 }
 
 .form-group label {
-    flex: 0 0 45%;
     text-align: left;
-    margin-right: 10px;
+    margin-bottom: 5px; /* Add a margin to separate label and input */
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    flex: 0 0 50%; 
+    width: calc(100% - 10px); /* Updated to full width with a small gap */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    margin-bottom: 5px; /* Add a margin to separate input and small text */
+}
+
+.form-group small {
+    font-size: 12px; /* Adjust font size */
+    font-style: italic; /* Apply italic style */
+    margin-top: 5px; /* Add margin to separate small text from input */
+    text-align: left;
+}
+
+.education-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.char-count {
+    font-size: 12px;
+    color: #888;
 }
 
 #hiddenFields {

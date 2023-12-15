@@ -15,11 +15,13 @@
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" required>
+                <small class="form-helper-text">Enter a username (5-50 characters, alphanumeric and hyphens allowed)</small>
             </div>
 
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" required>
+                <small class="form-helper-text">Please enter a password with at least 8 characters, including one uppercase, one lowercase, and one special character.</small>
             </div>
 
             <div class="form-group">
@@ -29,18 +31,27 @@
 
             <div class="form-group">
                 <label for="education">Tell us about your education:</label>
-                <textarea name="education" id="education" minlength="100" maxlength="300" required placeholder="Provide a detailed description of your education (100-300 characters)"></textarea>
+                <textarea name="education" id="education" minlength="100" maxlength="300" placeholder="E.g. I study Computer Science at Aston University; I completed my BTEC Level 3 in College..."></textarea>
+                <div class="education-info">
+                    <small class="form-helper-text">Provide a detailed description of your education (100-300 characters)</small>
+                    <div class="char-count" id="charCount">0 characters</div>
+                </div>
             </div>
+
 
 
             <div class="form-group">
                 <label for="phonenumber">Phone Number:</label>
-                <input type="tel" name="phonenumber" placeholder="Enter a valid number" id="phonenumber" required>
+                <input type="tel" name="phonenumber" placeholder="07123456900" id="phonenumber" required>
+                <small class="form-helper-text">Enter a valid number </small>
+
             </div>
 
             <div class="form-group">
                 <label for="DOB">Date of Birth:</label>
-                <input type="text" name="DOB" placeholder="DD/MM/YYYY" id="DOB" required>
+                <input type="text" name="DOB" placeholder="01/01/2001" id="DOB" required>
+                <small class="form-helper-text">DD/MM/YYYY</small>
+
             </div>
 
             <div class="form-group">
@@ -66,6 +77,17 @@
             <div class="form-group">
                 <label for="JSON">JSON Preferences:</label>
                 <textarea name="JSON" rows="4" cols="50" id="JSON"></textarea>
+                <small class="form-helper-text">
+            {
+                "notificationSettings": {
+                    "post": true / false,
+                    "sms": true / false,
+                    "push": true / false,
+                    "frequency": "immediate" / "daily" / "weekly"
+                }
+            } 
+            </small>
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Register">

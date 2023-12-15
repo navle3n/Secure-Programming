@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Include the User and ConcreteUserBuilder class definitions
 require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';
@@ -7,7 +10,7 @@ require_once 'ConcreteUserBuilder.php';
 // Database connection details
 $servername = "localhost";
 $username = "root";
-$password = "manoisdumb";
+$password = "";
 $dbname = "user_registration_db";
 
 try {
@@ -210,19 +213,54 @@ try {
             error_log("SQL statement preparation error: " . $conn->error);
         }
 
+       // Get values before binding parameters
+        $username = $user->getUsername();
+        $password = $user->getPassword();
+        $education = $user->getEducation();
+        $phonenumber = $user->getPhonenumber();
+        $dob = $user->getDOB();
+        $cor = $user->getCOR();
+        $street = $user->getStreet();
+        $number = $user->getNumber();
+        $postcode = $user->getPostcode();
+        $json = $user->getJSON();
+
         // Bind parameters
         $stmt->bind_param("ssssssssss",
-            $user->getUsername(),
-            $user->getPassword(),
-            $user->getEducation(),
-            $user->getPhonenumber(),
-            $user->getDOB(),
-            $user->getCOR(),
-            $user->getStreet(),
-            $user->getNumber(),
-            $user->getPostcode(),
-            $user->getJSON()
+        $username,
+        $password,
+        $education,
+        $phonenumber,
+        $dob,
+        $cor,
+        $street,
+        $number,
+        $postcode,
+        $json
         );
+
+
+        // Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Check if the username already exists
+    $checkUsernameQuery = "SELECT username FROM users WHERE username = ?";
+    $checkUsernameStmt = $conn->prepare($checkUsernameQuery);
+    $checkUsernameStmt->bind_param("s", $_POST['username']);
+    $checkUsernameStmt->execute();
+    $checkUsernameStmt->store_result();
+
+    // If the username exists, display an error message
+    if ($checkUsernameStmt->num_rows > 0) {
+        die("Username already exists. Please choose a different username.");
+    }
+
+    // If the username doesn't exist, proceed with user registration
+    else {
+        // Hash the password before storing in the database
+        $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        // ... (existing code for preparing and executing the insert query)
 
         // Execute the statement
         if (!$stmt->execute()) {
@@ -237,6 +275,9 @@ try {
 
         // Close the statement
         $stmt->close();
+    }
+}
+
     }
 } catch (mysqli_sql_exception $e) {
     // Handle database-related exceptions

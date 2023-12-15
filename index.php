@@ -64,31 +64,41 @@
                 </select>
             </div>
             <div id="hiddenFields" style="display: none;">
-                <label for="street">Street:</label>
-                <input type="text" name="street" maxlength="250" id="street">
 
-                <label for="number">Number:</label>
-                <input type="text" name="number" id="number">
+    <ul class="field-list">
+        <li>
+            <label for="street">Street:</label>
+            <input type="text" name="street" maxlength="250" id="street">
+        </li>
+        <li>
+            <label for="number">Number:</label>
+            <input type="text" name="number" id="number">
+        </li>
+        <li>
+            <label for="postcode">Postcode:</label>
+            <input type="text" name="postcode" placeholder="Enter a valid postcode" id="postcode">
+        </li>
+    </ul>
+</div>
 
-                <label for="postcode">Postcode:</label>
-                <input type="text" name="postcode" placeholder="Enter a valid postcode" id="postcode">
-            </div>
 
             <div class="form-group">
                 <label for="JSON">JSON Preferences:</label>
                 <textarea name="JSON" rows="4" cols="50" id="JSON"></textarea>
                 <small class="form-helper-text">
-            {
-                "notificationSettings": {
-                    "post": true / false,
-                    "sms": true / false,
-                    "push": true / false,
-                    "frequency": "immediate" / "daily" / "weekly"
-                }
-            } 
-            </small>
-
+                    <pre>
+                    {
+                        "notificationSettings": {
+                            "post": true / false,
+                            "sms": true / false,
+                            "push": true / false,
+                            "frequency": "immediate" / "daily" / "weekly"
+                        }
+                    } 
+                    </pre>
+                </small>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Register">
             </div>

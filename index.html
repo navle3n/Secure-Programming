@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="DOB">Date of Birth:</label>
-                <input type="text" name="DOB" placeholder="01/01/2001" id="DOB" required>
+                <input type="date" name="DOB" placeholder="01/01/2001" id="DOB" required>
                 <small class="form-helper-text">DD/MM/YYYY</small>
 
             </div>
@@ -63,24 +63,23 @@
                     <option value="IR">IR</option>
                 </select>
             </div>
+            
             <div id="hiddenFields" style="display: none;">
-
-    <ul class="field-list">
-        <li>
-            <label for="street">Street:</label>
-            <input type="text" name="street" maxlength="250" id="street">
-        </li>
-        <li>
-            <label for="number">Number:</label>
-            <input type="text" name="number" id="number">
-        </li>
-        <li>
-            <label for="postcode">Postcode:</label>
-            <input type="text" name="postcode" placeholder="Enter a valid postcode" id="postcode">
-        </li>
-    </ul>
-</div>
-
+                <ul class="field-list">
+                    <li>
+                        <label for="street">Street:</label>
+                        <input type="text" name="street" maxlength="250" id="street">
+                    </li>
+                    <li>
+                        <label for="number">Number:</label>
+                        <input type="text" name="number" id="number">
+                    </li>
+                    <li>
+                        <label for="postcode">Postcode:</label>
+                        <input type="text" name="postcode" placeholder="Enter a valid postcode" id="postcode">
+                    </li>
+                </ul>
+            </div>
 
             <div class="form-group">
                 <label for="JSON">JSON Preferences:</label>

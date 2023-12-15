@@ -43,9 +43,10 @@ function isValidPassword(password) {
 
 // Function to validate education format
 function isValidEducation(education) {
-    // Allow only specified education levels
-    const allowedEducations = ["High School", "Bachelor's Degree", "Master's Degree", "Doctorate"];
-    return allowedEducations.includes(education);
+    // Allow only text with a length between 100 and 300 characters
+    const trimmedEducation = education.trim();
+    const educationLength = trimmedEducation.length;
+    return educationLength >= 100 && educationLength <= 300;
 }
 
 // Function to validate phone number format
@@ -170,7 +171,7 @@ function validateForm() {
 
     // Validate education format
     if (!isValidEducation(educationInput.value)) {
-        alert('Invalid education. Please select a valid education level.');
+        alert('Invalid education. Please make sure the education is betweek 100 and 300 characters');
         return false;
     }
 

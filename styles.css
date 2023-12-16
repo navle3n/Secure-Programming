@@ -7,85 +7,85 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-}
-
-.container {
+  }
+  
+  .container {
     max-width: 600px;
-    margin: auto; /* Adjust the top margin as needed */
+    margin: auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-
-h1 {
+  }
+  
+  
+  h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
-}
-
-.form-group {
+  }
+  
+  .form-group {
     display: flex;
-    flex-direction: column; /* Updated to a column layout */
+    flex-direction: column;
     margin-bottom: 20px;
-}
-
-.form-group label {
+  }
+  
+  .form-group label {
     text-align: left;
-    margin-bottom: 5px; /* Add a margin to separate label and input */
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: calc(100% - 10px); /* Updated to full width with a small gap */
-    box-sizing: border-box; /* Include padding and border in the width calculation */
-    margin-bottom: 5px; /* Add a margin to separate input and small text */
-}
-
-.form-group small {
-    font-size: 12px; /* Adjust font size */
-    font-style: italic; /* Apply italic style */
-    margin-top: 5px; /* Add margin to separate small text from input */
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+    margin-bottom: 5px;
+  }
+  
+  .form-group small {
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 5px;
     text-align: left;
-}
-
-.education-info {
+  }
+  
+  .education-info {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-}
-
-.char-count {
+  }
+  
+  .char-count {
     font-size: 12px;
     color: #888;
-}
-
-#hiddenFields {
+  }
+  
+  #hiddenFields {
     display: none;
-}
-
-
-.field-list {
+  }
+  
+  
+  .field-list {
     display: flex;
     list-style: none;
     padding: 0;
-}
-
-.field-list li {
+  }
+  
+  .field-list li {
     margin-bottom: 15px;
-    
-}
-
-.form-helper-text {
+  
+  }
+  
+  .form-helper-text {
     display: block;
     font-style: italic;
     font-size: small;
-}
-
-input[type="submit"] {
+  }
+  
+  input[type="submit"] {
     background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
@@ -93,8 +93,9 @@ input[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-}
-
-input[type="submit"]:hover {
+  }
+  
+  input[type="submit"]:hover {
     background-color: #45a049;
-}
+  }
+  

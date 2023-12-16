@@ -6,12 +6,7 @@ ini_set('display_errors', 1);
 // Include the User and ConcreteUserBuilder class definitions
 require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';
-
-// Database connection details
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "user_registration_db";
+require_once 'ConnConfig.php';
 
 try {
     // Create a database connection
@@ -114,13 +109,28 @@ try {
         }
         
        // Function to validate JSON preferences format
-        function isValidJSON($json) {
+       function isValidJSON($json) {
             // Decode the JSON string
-            $decoded = json_decode($json);
-
+            $decoded = json_decode($json, true);
+        
             // Check if the decoding was successful and if the result is an array or an object
-            return json_last_error() === JSON_ERROR_NONE && ($decoded !== null);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                // Check the structure of the JSON object
+                return isset($decoded['notificationSettings']) &&
+                    is_array($decoded['notificationSettings']) &&
+                    array_key_exists('post', $decoded['notificationSettings']) &&
+                    array_key_exists('sms', $decoded['notificationSettings']) &&
+                    array_key_exists('push', $decoded['notificationSettings']) &&
+                    array_key_exists('frequency', $decoded['notificationSettings']) &&
+                    is_bool($decoded['notificationSettings']['post']) &&
+                    is_bool($decoded['notificationSettings']['sms']) &&
+                    is_bool($decoded['notificationSettings']['push']) &&
+                    in_array($decoded['notificationSettings']['frequency'], ['immediate', 'daily', 'weekly']);
+            }
+        
+            return false;
         }
+        
 
         
         // Validate username
@@ -143,6 +153,8 @@ try {
         $checkUsernameStmt->execute();
         $checkUsernameStmt->bind_result($existingUserCount);
         $checkUsernameStmt->fetch();
+        
+        $checkUsernameStmt->close();
 
         // Check if a user with the same username already exists
         if ($existingUserCount > 0) {
@@ -225,10 +237,9 @@ try {
         VALUES (?, ?, ?, ?, STR_TO_DATE(?, '%Y/%m/%d'), ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
-
+       
         if (!$stmt) {
-            die("Error in prepar ing the SQL statement. Please try again later.");
-
+            die("Error in preparing the SQL statement. Please try again later.");
             // Log the detailed error for debugging purposes
             error_log("SQL statement preparation error: " . $conn->error);
         }
@@ -259,33 +270,12 @@ try {
         $json
         );
 
-
-        // Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Check if the username already exists
-    $checkUsernameQuery = "SELECT username FROM users WHERE username = ?";
-    $checkUsernameStmt = $conn->prepare($checkUsernameQuery);
-    $checkUsernameStmt->bind_param("s", $_POST['username']);
-    $checkUsernameStmt->execute();
-    $checkUsernameStmt->store_result();
-
-    // If the username exists, display an error message
-    if ($checkUsernameStmt->num_rows > 0) {
-        die("Username already exists. Please choose a different username.");
-    }
-
-    // If the username doesn't exist, proceed with user registration
-    else {
-        // Hash the password before storing in the database
-        $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-        // ... (existing code for preparing and executing the insert query)
-
         // Execute the statement
         if ($stmt->execute()) {
+            // Registration successful, set session variable
+            $_SESSION['registrationSuccess'] = true;
             // Registration successful, redirect to success page
-            header("Location: registration_success.php");
+            header("Location: registrationSuccess.php");
             exit();
         } else {
             // Registration failed
@@ -295,11 +285,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Close the statement
-        $checkUsernameStmt->close();
         $stmt->close();
-    }
-}
-
     }
 } catch (mysqli_sql_exception $e) {
     // Handle database-related exceptions
@@ -319,4 +305,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-

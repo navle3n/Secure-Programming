@@ -65,7 +65,10 @@ class ConcreteUserBuilder implements UserBuilder {
     }
 
     public function build() {
-        return $this->user;
+        if ($this->user->getPassword() !== $this->user->getRetypepass()) {
+            throw new \Exception('Passwords do not match.');
+        }
+        return clone $this->user;
     }
 }
 ?>

@@ -1,3 +1,5 @@
+(function() {
+
 const meta = document.createElement('meta');
 meta.httpEquiv = 'Content-Security-Policy';
 meta.content = "default-src 'self'";
@@ -143,6 +145,28 @@ function isValidPostcode(postcode, cor) {
     }
 }
 
+// Function to validate JSON preferences format
+function isValidJSON(json) {
+    try {
+        const preferences = JSON.parse(json);
+
+        // Check the structure of the JSON object
+        if (
+            preferences &&
+            preferences.notificationSettings &&
+            typeof preferences.notificationSettings.post === 'boolean' &&
+            typeof preferences.notificationSettings.sms === 'boolean' &&
+            typeof preferences.notificationSettings.push === 'boolean' &&
+            ['immediate', 'daily', 'weekly'].includes(preferences.notificationSettings.frequency)
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        return false; 
+    }
+}
 
 // Validate form on the client side
 function validateForm() {
@@ -232,6 +256,12 @@ function validateForm() {
         return false;
     }
 
+    // Validate JSON preferences format
+    if (!isValidJSON(jsonInput.value)) {
+        alert('Invalid JSON preferences. Please enter valid JSON schema.');
+        return false;
+    }
+
     return true;
 }
 
@@ -259,3 +289,4 @@ form.addEventListener('submit', function (event) {
         form.submit(); // Proceed with form submission
     }
 });
+})();

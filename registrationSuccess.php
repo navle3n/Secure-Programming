@@ -1,5 +1,13 @@
-<!-- registration_success.php -->
+<?php
+session_start();
 
+if (!isset($_SESSION['registration_success']) || !$_SESSION['registration_success']) {
+    header("Location: index.html");
+    exit();
+}
+
+unset($_SESSION['registration_success']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

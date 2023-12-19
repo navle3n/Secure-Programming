@@ -8,6 +8,9 @@ require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';
 require_once 'ConnConfig.php';
 
+// Start the session
+session_start();
+
 try {
     // Create a database connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -109,28 +112,14 @@ try {
         }
         
        // Function to validate JSON preferences format
-       function isValidJSON($json) {
-            // Decode the JSON string
-            $decoded = json_decode($json, true);
+       require 'vendor/autoload.php'; // Include the JSON Schema Validator library
+
+       function isValidJSON($json, $schema) {
+           $validator = new JsonSchema\Validator;
+           $validator->validate(json_decode($json), (object)['$ref' => $schema]);
         
-            // Check if the decoding was successful and if the result is an array or an object
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                // Check the structure of the JSON object
-                return isset($decoded['notificationSettings']) &&
-                    is_array($decoded['notificationSettings']) &&
-                    array_key_exists('post', $decoded['notificationSettings']) &&
-                    array_key_exists('sms', $decoded['notificationSettings']) &&
-                    array_key_exists('push', $decoded['notificationSettings']) &&
-                    array_key_exists('frequency', $decoded['notificationSettings']) &&
-                    is_bool($decoded['notificationSettings']['post']) &&
-                    is_bool($decoded['notificationSettings']['sms']) &&
-                    is_bool($decoded['notificationSettings']['push']) &&
-                    in_array($decoded['notificationSettings']['frequency'], ['immediate', 'daily', 'weekly']);
-            }
-        
-            return false;
-        }
-        
+           return $validator->isValid();
+       }
 
         
         // Validate username
@@ -168,7 +157,7 @@ try {
 
         // Validate retype password
         if ($_POST['password'] !== $_POST['retypepassword']) {
-            die("Passwords do not match.");
+            trigger_error('Passwords do not match.', E_USER_ERROR);
         }
 
        // Validate education
@@ -207,8 +196,8 @@ try {
             die("Invalid postcode. Please enter a valid postcode based on your country of residence.");
         }
 
-        // Validate JSON preferences format
-        if (!isValidJSON($_POST['JSON'])) {
+        $schema = 'schema.json'
+        if (!isValidJSON($_POST['JSON'], $schema)) {
             die("Invalid JSON preferences. Please enter valid JSON.");
         }
         
@@ -291,14 +280,14 @@ try {
     // Handle database-related exceptions
     echo "A database error occurred. Please try again later.";
 
-    // Log the detailed error for debugging purposes
-    error_log("Database error: " . $e->getMessage());
+    // Explicitly log the detailed error for debugging purposes
+    error_log("Database error: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 } catch (Exception $e) {
     // Handle other unexpected exceptions
     echo "An unexpected error occurred. Please try again later.";
 
-    // Log the detailed error for debugging purposes
-    error_log("Unexpected error: " . $e->getMessage());
+    // Explicitly log the detailed error for debugging purposes
+    error_log("Unexpected error: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 } finally {
     // Close the database connection
     $conn->close();

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "notificationSettings": {
+      "type": "object",
+      "properties": {
+        "post": { "type": "boolean" },
+        "sms": { "type": "boolean" },
+        "push": { "type": "boolean" },
+        "frequency": { "type": "string", "enum": ["immediate", "daily", "weekly"] }
+      },
+      "required": ["post", "sms", "push", "frequency"]
+    }
+  },
+  "required": ["notificationSettings"]
+}

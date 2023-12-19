@@ -289,4 +289,4 @@ form.addEventListener('submit', function (event) {
         form.submit(); // Proceed with form submission
     }
 });
-})();
+})()

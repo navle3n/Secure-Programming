@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Generate CSRF token
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+header("Content-Security-Policy: default-src 'self';");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +21,7 @@
         <h1>User Registration Form</h1>
 
         <form method="post" action="process.php" id="registrationForm">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" required>
@@ -101,6 +111,7 @@
             </div>
         </form>
     </div>
+    <div id="errorMessage" style="color: red; margin-top: 10px;"></div>
     <script src="userFormBuilder.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+header("Content-Security-Policy: default-src 'self';");
 require_once 'User.php';
 require_once 'UserBuilder.php';
 

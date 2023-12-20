@@ -2,7 +2,7 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
+header("Content-Security-Policy: default-src 'self';");
 // Include the User and ConcreteUserBuilder class definitions
 require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';

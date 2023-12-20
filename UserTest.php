@@ -1,5 +1,5 @@
 <?php
-
+header("Content-Security-Policy: default-src 'self';");
 // UserTest.php
 
 use PHPUnit\Framework\TestCase;

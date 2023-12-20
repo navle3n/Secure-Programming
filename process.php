@@ -11,22 +11,26 @@ require_once 'ConnConfig.php';
 // Start the session
 session_start();
 
+function displayErrorAndLog($errorMessage) {
+    echo $errorMessage;
+    error_log($errorMessage);
+    exit();
+}
+
 try {
     // Create a database connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check the connection
     if ($conn->connect_error) {
-        // Display user-friendly error message
-        die("Connection failed. Please try again later.");
-
-        // Log the detailed error for debugging purposes
-        error_log("Database connection error: " . $conn->connect_error);
+        displayErrorAndLog("Connection failed. Please try again later.");
     }
 
     // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            displayErrorAndLog("CSRF token validation failed. Possible CSRF attack.");
+        }
         // Function to sanitize input
         function sanitizeInput($input) {
             return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
@@ -54,11 +58,18 @@ try {
         }
 
         // Function to validate phone number format
-        function isValidPhoneNumber($phoneNumber) {
+        function isValidPhoneNumber($phoneNumber, $cor) {
             // Allow UK, Ireland, and US phone number formats
-            return preg_match('/^(?:\+44|0)\d{10}$/', $phoneNumber) || 
-                preg_match('/^(\+353|0)\d{9}$/', $phoneNumber) || 
-                preg_match('/^\+1\d{10}$/', $phoneNumber);
+            if ($cor === "UK") {
+                $regex = '/^(?:\+44|0)\d{10}$/';
+            } elseif ($cor === "IR") {
+                $regex = '/^(\+353|0)\d{9}$/';
+            } elseif ($cor === "US") {
+                $regex = '/^\+1\d{10}$/';
+            } else {
+                return false; 
+            }
+            return preg_match($regex, $phoneNumber);
         }
 
         // Function to validate date format and age
@@ -115,18 +126,20 @@ try {
        require 'vendor/autoload.php'; // Include the JSON Schema Validator library
 
        function isValidJSON($json, $schema) {
-           $validator = new JsonSchema\Validator;
-           $jsonObject = json_decode($json);
-           $validator->validate($jsonObject, (object)['$ref' => $schema]);
-          // $validator->validate(json_decode($json), (object)['$ref' => $schema]);
-        
-           return $validator->isValid();
+            $validator = new JsonSchema\Validator;
+            $jsonObject = json_decode($json);
+            $validator->validate($jsonObject, (object)['$ref' => $schema]);
+            if (!$validator->isValid()) {
+                displayErrorAndLog("Invalid JSON preferences. Please enter valid JSON.");
+                } else{
+                return $validator->isValid();
+            }
        }
 
         
         // Validate username
         if (!isValidUsername($_POST['username'])) {
-            die("Invalid username. Please enter a valid username.");
+            displayErrorAndLog("Invalid username. Please enter a valid username.");
         }
 
         // Check if the username already exists in the database
@@ -134,10 +147,7 @@ try {
         $checkUsernameStmt = $conn->prepare($checkUsernameQuery);
 
         if (!$checkUsernameStmt) {
-            die("Error in preparing the username check SQL statement. Please try again later.");
-
-            // Log the detailed error for debugging purposes
-            error_log("Username check SQL statement preparation error: " . $conn->error);
+            displayErrorAndLog("Error in preparing the username check SQL statement. Please try again later.");
         }
 
         $checkUsernameStmt->bind_param("s", $_POST['username']);
@@ -147,14 +157,13 @@ try {
         
         $checkUsernameStmt->close();
 
-        // Check if a user with the same username already exists
         if ($existingUserCount > 0) {
-            die("Username already exists. Please choose a different username.");
+            displayErrorAndLog("Username already exists. Please choose a different username.");
         }
         
         // Validate password
         if (!isValidPassword($_POST['password'])) {
-            die("Invalid password. Please enter a password with at least 8 characters, including one uppercase, one lowercase, and one special character.");
+            displayErrorAndLog("Invalid password. Please enter a password with at least 8 characters, including one uppercase, one lowercase, and one special character.");
         }
 
         // Validate retype password
@@ -164,43 +173,38 @@ try {
 
        // Validate education
         if (!isValidEducation($_POST['education'])) {
-            die("Invalid education. Please provide a detailed description of your education (100-300 characters).");
+            displayErrorAndLog("Invalid education. Please provide a detailed description of your education (100-300 characters).");
         }
- 
 
-        // Validate phone number
-        if (!isValidPhoneNumber($_POST['phonenumber'])) {
-            die("Invalid phone number. Please enter a valid phone number.");
-        }
 
         // Validate date of birth
         if (!isValidDateOfBirth($_POST['DOB'])) {
-            die("Invalid Date of Birth. Please use the format DD/MM/YYYY and ensure you are at least 18 years old.");
+            displayErrorAndLog("Invalid Date of Birth. Please use the format DD/MM/YYYY and ensure you are at least 18 years old.");
         }
 
         // Validate country of residence
         if (!isValidCountryOfResidence($_POST['COR'])) {
-            die("Invalid Country of Residence. Please select a valid country.");
+            displayErrorAndLog("Invalid Country of Residence. Please select a valid country.");
         }
 
         // Validate street format (only if country of residence is provided)
         if ($_POST['COR'] && !isValidStreet($_POST['street'])) {
-            die("Invalid street. Please enter a valid street (up to 250 characters).");
+            displayErrorAndLog("Invalid street. Please enter a valid street (up to 250 characters).");
         }
 
         // Validate number format
         if (!isValidNumber($_POST['number'])) {
-            die("Invalid number. Please enter a valid number.");
+            displayErrorAndLog("Invalid number. Please enter a valid number.");
         }
 
         // Validate postcode format based on country of residence
         if (!isValidPostcode($_POST['postcode'], $_POST['COR'])) {
-            die("Invalid postcode. Please enter a valid postcode based on your country of residence.");
+            displayErrorAndLog("Invalid postcode. Please enter a valid postcode based on your country of residence.");
         }
 
         $schema = "C:\wamp\www\Secure-Programming\schema.json";
         if (!isValidJSON($_POST['JSON'], $schema)) {
-            die("Invalid JSON preferences. Please enter valid JSON.");
+            displayErrorAndLog("Invalid JSON preferences. Please enter valid JSON.");
         }
         
         // Hash the password before storing in the database
@@ -230,9 +234,7 @@ try {
         $stmt = $conn->prepare($sql);
        
         if (!$stmt) {
-            die("Error in preparing the SQL statement. Please try again later.");
-            // Log the detailed error for debugging purposes
-            error_log("SQL statement preparation error: " . $conn->error);
+            displayErrorAndLog("Error in preparing the SQL statement. Please try again later.");
         }
 
        // Get values before binding parameters
@@ -269,10 +271,7 @@ try {
             header("Location: registrationSuccess.php");
             exit();
         } else {
-            // Registration failed
-            die("Error in executing the SQL statement. Please try again later.");
-            // Log the detailed error for debugging purposes
-            error_log("SQL statement execution error: " . $stmt->error);
+            displayErrorAndLog("Error in executing the SQL statement. Please try again later.");
         }
 
         // Close the statement
@@ -280,21 +279,12 @@ try {
     }
 } catch (mysqli_sql_exception $e) {
     // Handle database-related exceptions
-    echo "A database error occurred. Please try again later.";
-
-    // Explicitly log the detailed error for debugging purposes
-    error_log("Database error: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+    displayErrorAndLog("A database error occurred. Please try again later. Details: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 } catch (Exception $e) {
     // Handle other unexpected exceptions
-    echo "An unexpected error occurred. Please try again later.";
-    $errorMessage = "An unexpected error occurred: " . $e->getMessage() . "\n" . $e->getTraceAsString();
-    echo $errorMessage;
-
-    // Log the detailed error for debugging purposes
-    error_log($errorMessage);
+    displayErrorAndLog("An unexpected error occurred. Please try again later. Details: " . $e->getMessage() . "\n" . $e->getTraceAsString());
 } finally {
     // Close the database connection
     $conn->close();
 }
-
 ?>

@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['registration_success']) || !$_SESSION['registration_success']) {
+if (!isset($_SESSION['registrationSuccess']) || !$_SESSION['registrationSuccess']) {
     header("Location: index.html");
     exit();
 }
 
-unset($_SESSION['registration_success']);
+unset($_SESSION['registrationSuccess']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

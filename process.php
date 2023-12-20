@@ -116,7 +116,9 @@ try {
 
        function isValidJSON($json, $schema) {
            $validator = new JsonSchema\Validator;
-           $validator->validate(json_decode($json), (object)['$ref' => $schema]);
+           $jsonObject = json_decode($json);
+           $validator->validate($jsonObject, (object)['$ref' => $schema]);
+          // $validator->validate(json_decode($json), (object)['$ref' => $schema]);
         
            return $validator->isValid();
        }
@@ -196,7 +198,7 @@ try {
             die("Invalid postcode. Please enter a valid postcode based on your country of residence.");
         }
 
-        $schema = 'schema.json'
+        $schema = "C:\wamp\www\Secure-Programming\schema.json";
         if (!isValidJSON($_POST['JSON'], $schema)) {
             die("Invalid JSON preferences. Please enter valid JSON.");
         }
@@ -285,9 +287,11 @@ try {
 } catch (Exception $e) {
     // Handle other unexpected exceptions
     echo "An unexpected error occurred. Please try again later.";
+    $errorMessage = "An unexpected error occurred: " . $e->getMessage() . "\n" . $e->getTraceAsString();
+    echo $errorMessage;
 
-    // Explicitly log the detailed error for debugging purposes
-    error_log("Unexpected error: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+    // Log the detailed error for debugging purposes
+    error_log($errorMessage);
 } finally {
     // Close the database connection
     $conn->close();

@@ -1,16 +1,16 @@
 <?php
+// Start the session
+session_start();
+header_remove("X-Powered-By");
+header("X-Frame-Options: SAMEORIGIN");
+header("Content-Security-Policy: frame-ancestors 'self'");
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-header("Content-Security-Policy: default-src 'self';");
 // Include the User and ConcreteUserBuilder class definitions
 require_once 'User.php';
 require_once 'ConcreteUserBuilder.php';
 require_once 'ConnConfig.php';
-
-// Start the session
-session_start();
-
 function displayErrorAndLog($errorMessage) {
     echo $errorMessage;
     error_log($errorMessage);
@@ -94,14 +94,11 @@ try {
 
         // Function to validate street format
         function isValidStreet($street) {
-            // Allow up to 250 characters
             return mb_strlen($street) <= 250;
         }
 
         // Function to validate number format
         function isValidNumber($number) {
-            // Customize based on your requirements
-            // Example: Allow only numbers and letters
             return preg_match('/^[a-zA-Z0-9]+$/', $number);
         }
 

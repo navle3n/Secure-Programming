@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: default-src 'self';");
 class User {
     private $username;
     private $password;

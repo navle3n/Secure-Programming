@@ -1,9 +1,4 @@
 (function () {
-    const meta = document.createElement('meta');
-    meta.httpEquiv = 'Content-Security-Policy';
-    meta.content = "default-src 'self'";
-    document.head.appendChild(meta);
-  
     function showError(message) {
         const errorMessageDiv = document.getElementById('errorMessage');
         errorMessageDiv.textContent = message;

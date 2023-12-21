@@ -1,5 +1,4 @@
 <?php
-header("Content-Security-Policy: default-src 'self';");
 interface UserBuilder {
     public function setUsername($username);
     public function setPassword($password);
